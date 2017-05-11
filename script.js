@@ -15,8 +15,7 @@ $(document).ready(function () {
             url: url,
             dataType: 'jsonp',
             success: function(data) {
-            	console.log(data);
-            	if(data.hasOwnProperty('parse.title')){
+            	if(data.parse.title != undefined){
 	            	//Hide default title placeholder and show title after search
 	                $('#title').hide();
 	                document.getElementById('title').innerHTML = data.parse.title;
@@ -26,7 +25,7 @@ $(document).ready(function () {
 	                $('#content').hide();
 	                document.getElementById('content').innerHTML = data.parse.text['*'];
 	                $('#content').show();
-	            } else if(data.hasOwnProperty('error')) {
+	            } else if(data.error != undefined) {
 	            	$('#title').hide();
 	                document.getElementById('title').innerHTML = "Error Occured :(";
 	                $('#title').show();
