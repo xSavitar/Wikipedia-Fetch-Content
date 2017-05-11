@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Wikipedia Fetch Content</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="row">
+    <div class="side-menu">
+      <nav class="navbar navbar-default" role="navigation">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <div class="brand-wrapper">
+
+            <!-- Hamburger Menu -->
+            <button type="button" class="navbar-toggle">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            <!-- Brand -->
+            <div class="brand-name-wrapper">
+              <a class="navbar-brand" href="#">
+                Ready to Fetch Wikipedia
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Menu -->
+        <div class="side-menu-container">
+          <ul class="nav navbar-nav" id="form">
+            <br />
+
+            <form>
+              <div class="form-group col-lg-12">
+                <input type="text" id="article_name" class="form-control" placeholder="Article name">
+              </div>
+              <div class="form-group col-lg-12">
+                <select class="form-control" id="language">
+                  <option value="en">English</option>
+                  <option value="fr">French</option>
+                  <option value="es">Spanish</option>
+                  <option value="de">German</option>
+                  <option value="pl">Polish</option>
+                  <option value="he">Hebrew</option>
+                  <option value="un">Unknown</option>
+                  <option value="un">Unknown</option>
+                  <option value="un">Unknown</option>
+                  <option value="un">Unknown</option>
+                </select>
+              </div>
+              <div class="form-group col-lg-12">
+                <button id="fetch" class="btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12">Fetch</button>
+              </div>
+            </form>
+
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="container-fluid">
+      <div class="side-body">
+       <h1 align="center" id="title"> Article name </h1>
+       <hr>
+       <pre id="content"> Fetched Content will appear here :) </pre>
+     </div>
+   </div>
+ </div>
+ 
+ <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+ <script type="text/javascript" src="script.js"></script>
+ <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
