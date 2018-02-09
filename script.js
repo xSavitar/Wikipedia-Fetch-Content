@@ -49,7 +49,7 @@ $(document).ready(function () {
 			dataType: 'jsonp',
 			success: function(response) {
 				var articles = response.search;
-				var wrapper = 'articles';
+				var wrapper = 'articles_list';
                 $(wrapper).children().remove(); //resetting list
 				
 				// loop through item list and append li with content
