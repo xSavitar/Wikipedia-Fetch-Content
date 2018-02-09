@@ -40,7 +40,7 @@ $(document).ready(function () {
 	});
 
 	var articles_wrapper 	= '#articles_list';
-	var article_filed		= '#article_name';
+	var article_field		= '#article_name';
 	var language_field 		= '#language';
 
 	/* Fire autocomplete feature on keyup */
@@ -78,7 +78,7 @@ $(document).ready(function () {
 	$(articles_wrapper).click(function(e) {
 
 		// replacing article input value
-		$('#article_name').val($(this).text());
+		$(article_field).val($(this).text());
 		$(wrapper).children().remove(); //resetting list
 
 	});
@@ -96,9 +96,9 @@ function wikipedia_fetch_url( article_field, language_field ) {
 }
 
 /* Autocomplete */
-function wikipedia_autocomplete_url( input_field) {
-	var article_name = $(input_field).val();
-	var language = $('#language').val();
+function wikipedia_autocomplete_url( article_field, language_field ) {
+	var article_name = $(article_field).val();
+	var language = $(language_field).val();
 	var base_url = "https://" + language + ".wikipedia.org/w/api.php";
 	var data_format = "&format=json";
 	var request_url = "?action=query&list=search&srsearch=" + article_name;
