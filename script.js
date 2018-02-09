@@ -41,6 +41,8 @@ $(document).ready(function () {
 
 	/* Fire autocomplete feature on keyup */
 	$('#article_name').keyup(function(e)){
+		
+		var term = e.val();
 		var api_url = wikipedia_autocomplete_url();
 
 		$.ajax( {
@@ -53,10 +55,10 @@ $(document).ready(function () {
                 $(wrapper).children().remove(); //resetting list
 				
 				// loop through item list and append li with content
-				$(mentors).each(function(position, mentor) {
+				$(articles).each(function(position, article) {
 					$(wrapper).append( 
 					'<li>'+
-						'<span class="title"><b>' + mentor.name + '</b>'+
+						'<span class="title"><b>' + article.title + '</b>'+
 					'</li>' 
 					);
 				});
