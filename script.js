@@ -42,7 +42,7 @@ $(document).ready(function () {
 	/* Fire autocomplete feature on keyup */
 	$('#article_name').keyup(function(e){
 		
-		var term = $('#article_name').val();
+		var term = $(this).val();
 		var api_url = wikipedia_autocomplete_url();
 
 		$.ajax( {
@@ -52,7 +52,6 @@ $(document).ready(function () {
 			success: function(response) {
 				var articles = response.query.search;
 
-				var wrapper = '#articles_list';
                 $(wrapper).children().remove(); //resetting list
 				
 				// loop through item list and append li with content
@@ -67,6 +66,16 @@ $(document).ready(function () {
 			}
 		});
 
+
+	});
+
+	/* Second part of autocomplete: fill the input when a result is clicked */
+	// set the an action on click
+	$('#articles_list').click(function(e) {
+
+		// replacing article input value
+		$('#article_name').val($(this).text());
+		$(wrapper).children().remove(); //resetting list
 
 	});
 });
