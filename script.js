@@ -10,7 +10,6 @@ $(document).ready(function () {
 	$('#fetch').click(function(e){
 		e.preventDefault();
 		var url = wikipedia_fetch_url();
-		console.log(url);
 		$.ajax( {
 			type: "GET",
 			url: url,
@@ -42,7 +41,30 @@ $(document).ready(function () {
 
 	/* Fire autocomplete feature on keyup */
 	$('#article_name').keyup(function(e)){
-		
+		var api_url = wikipedia_autocomplete_url();
+
+		$.ajax( {
+			type: "GET",
+			url: api_url,
+			dataType: 'jsonp',
+			success: function(response) {
+				var articles = response.search;
+				var wrapper = 'articles';
+                $(wrapper).children().remove(); //resetting list
+				
+				// loop through item list and append li with content
+				$(mentors).each(function(position, mentor) {
+					$(wrapper).append( 
+					'<li>'+
+						'<span class="title"><b>' + mentor.name + '</b>'+
+					'</li>' 
+					);
+				});
+				
+			}
+		});
+
+
 	}
 });
 
@@ -57,8 +79,8 @@ function wikipedia_fetch_url() {
 	return url;
 }
 
-/* Autocomplete
-function wikipedia_autocomplte_title() {
+/* Autocomplete */
+function wikipedia_autocomplete_url() {
 	var article_name = $('#article_name').val();
 	var language = $('#language').val();
 	var base_url = "https://" + language + ".wikipedia.org/w/api.php";
@@ -67,4 +89,5 @@ function wikipedia_autocomplte_title() {
 	var url = base_url + request_url + data_format;
 	return url;
 }
-*/
+
+
