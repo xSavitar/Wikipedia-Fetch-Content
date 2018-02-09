@@ -16,32 +16,7 @@ $(document).ready(function () {
 	$('#fetch').click(function(e){
 		e.preventDefault();
 		var url = wikipedia_fetch_url(article_field, language_field);
-		$.ajax( {
-			type: "GET",
-			url: url,
-			dataType: 'jsonp',
-			success: function(data) {
-				if(data.hasOwnProperty('parse')){
-					//Hide default title placeholder and show title after search
-					$('#title').hide();
-					document.getElementById('title').innerHTML = data.parse.title;
-					$('#title').show();
-
-					//Show fetched content after the search
-					$('#content').hide();
-					document.getElementById('content').innerHTML = data.parse.text['*'];
-					$('#content').show();
-				} else {
-					$('#title').hide();
-					document.getElementById('title').innerHTML = "Error Occured :(";
-					$('#title').show();
-
-					$('#content').hide();
-					document.getElementById('content').innerHTML = "Article doesn't exist in selected language or error occured!";
-					$('#content').show();
-				}
-			}
-		});
+		
 	});
 
 
@@ -53,7 +28,7 @@ $(document).ready(function () {
 
 		// make sure field is not empty
 
-		if (""!== term) {
+		if (term.length > 0) {
 
 			$.ajax( {
 				type: "GET",
@@ -68,7 +43,7 @@ $(document).ready(function () {
 
 					console.log(data.query);
 
-	                $(articles_wrapper).children().remove(); //resetting list
+					$(articles_wrapper).children().remove(); //resetting list
 					
 					// loop through item list and append li with content
 					if (articles != null) {
@@ -81,8 +56,13 @@ $(document).ready(function () {
 						});
 					}
 					
+				},
+				error: function(e) {
+					$(articles_wrapper).children().remove(); //resetting list
 				}
 			});
+		} else {
+			$(articles_wrapper).children().remove(); //resetting list
 		}
 
 
@@ -119,6 +99,36 @@ function wikipedia_autocomplete_url( article_field, language_field ) {
 	var url = base_url + request_url + data_format;
 
 	return url;
+}
+
+/* Ajax call for fecthing and displaying page content */
+function wikipedia_fetch_and_display_page () {
+	$.ajax( {
+			type: "GET",
+			url: url,
+			dataType: 'jsonp',
+			success: function(data) {
+				if(data.hasOwnProperty('parse')){
+					//Hide default title placeholder and show title after search
+					$('#title').hide();
+					document.getElementById('title').innerHTML = data.parse.title;
+					$('#title').show();
+
+					//Show fetched content after the search
+					$('#content').hide();
+					document.getElementById('content').innerHTML = data.parse.text['*'];
+					$('#content').show();
+				} else {
+					$('#title').hide();
+					document.getElementById('title').innerHTML = "Error Occured :(";
+					$('#title').show();
+
+					$('#content').hide();
+					document.getElementById('content').innerHTML = "Article doesn't exist in selected language or error occured!";
+					$('#content').show();
+				}
+			}
+		});
 }
 
 
