@@ -1,4 +1,10 @@
 $(document).ready(function () {
+	
+	// Global variables
+	var articles_wrapper 	= '#articles_list';
+	var article_field		= '#article_name';
+	var language_field 		= '#language';
+
 	/* Toggle sidebar when hambugger menu is clicked on mobile view */
 	$('.navbar-toggle').click(function () {
 		$('.navbar-nav').toggleClass('slide-in');
@@ -9,7 +15,7 @@ $(document).ready(function () {
 	/* On-click on the fetch button, perform search */
 	$('#fetch').click(function(e){
 		e.preventDefault();
-		var url = wikipedia_fetch_url();
+		var url = wikipedia_fetch_url(article_field, language_field);
 		$.ajax( {
 			type: "GET",
 			url: url,
@@ -39,15 +45,14 @@ $(document).ready(function () {
 		});
 	});
 
-	var articles_wrapper 	= '#articles_list';
-	var article_field		= '#article_name';
-	var language_field 		= '#language';
 
 	/* Fire autocomplete feature on keyup */
 	$(article_field).keyup(function(e){
 		
 		var term = $(this).val();
-		var api_url = wikipedia_autocomplete_url();
+		var api_url = wikipedia_autocomplete_url(article_field, language_field);
+
+		console.log(api_url);
 
 		$.ajax( {
 			type: "GET",
@@ -86,7 +91,7 @@ $(document).ready(function () {
 
 /* JS function to build the Fetch URL */
 function wikipedia_fetch_url( article_field, language_field ) {
-	var article_name = $(input_field).val();
+	var article_name = $(article_field).val();
 	var language = $(language_field).val();
 	var base_url = "https://" + language + ".wikipedia.org/w/api.php";
 	var data_format = "&format=json";
