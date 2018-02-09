@@ -39,8 +39,12 @@ $(document).ready(function () {
 		});
 	});
 
+	var articles_wrapper 	= '#articles_list';
+	var article_filed		= '#article_name';
+	var language_field 		= '#language';
+
 	/* Fire autocomplete feature on keyup */
-	$('#article_name').keyup(function(e){
+	$(article_field).keyup(function(e){
 		
 		var term = $(this).val();
 		var api_url = wikipedia_autocomplete_url();
@@ -71,7 +75,7 @@ $(document).ready(function () {
 
 	/* Second part of autocomplete: fill the input when a result is clicked */
 	// set the an action on click
-	$('#articles_list').click(function(e) {
+	$(articles_wrapper).click(function(e) {
 
 		// replacing article input value
 		$('#article_name').val($(this).text());
@@ -81,9 +85,9 @@ $(document).ready(function () {
 });
 
 /* JS function to build the Fetch URL */
-function wikipedia_fetch_url() {
-	var article_name = $('#article_name').val();
-	var language = $('#language').val();
+function wikipedia_fetch_url( article_field, language_field ) {
+	var article_name = $(input_field).val();
+	var language = $(language_field).val();
 	var base_url = "https://" + language + ".wikipedia.org/w/api.php";
 	var data_format = "&format=json";
 	var request_url = "?action=parse&prop=text&page=" + article_name;
@@ -92,8 +96,8 @@ function wikipedia_fetch_url() {
 }
 
 /* Autocomplete */
-function wikipedia_autocomplete_url() {
-	var article_name = $('#article_name').val();
+function wikipedia_autocomplete_url( input_field) {
+	var article_name = $(input_field).val();
 	var language = $('#language').val();
 	var base_url = "https://" + language + ".wikipedia.org/w/api.php";
 	var data_format = "&format=json";
