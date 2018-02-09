@@ -15,8 +15,10 @@ $(document).ready(function () {
 	/* On-click on the fetch button, perform search */
 	$('#fetch').click(function(e){
 		e.preventDefault();
-		var url = wikipedia_fetch_url(article_field, language_field);
 		
+		var url = wikipedia_fetch_url(article_field, language_field);
+		wikipedia_fetch_and_display_page( url );
+
 	});
 
 
@@ -26,44 +28,7 @@ $(document).ready(function () {
 		var term = $(this).val();
 		var api_url = wikipedia_autocomplete_url(article_field, language_field);
 
-		// make sure field is not empty
-
-		if (term.length > 0) {
-
-			$.ajax( {
-				type: "GET",
-				url: api_url,
-				dataType: 'jsonp',
-				success: function( data) {
-
-
-					var articles = null;
-
-					if( data.query.searchinfo.hasOwnProperty('totalhits') ) { articles = data.query.search; }
-
-					console.log(data.query);
-
-					$(articles_wrapper).children().remove(); //resetting list
-					
-					// loop through item list and append li with content
-					if (articles != null) {
-						$(articles).each(function(position, article) {
-							$(articles_wrapper).append( 
-							'<li>'+
-								'<b>' + article.title + '</b>'+
-							'</li>' 
-							);
-						});
-					}
-					
-				},
-				error: function(e) {
-					$(articles_wrapper).children().remove(); //resetting list
-				}
-			});
-		} else {
-			$(articles_wrapper).children().remove(); //resetting list
-		}
+		wikipedia_fetch_and_display_titles( term, articles_wrapper, api_url );
 
 
 	});
@@ -74,6 +39,9 @@ $(document).ready(function () {
 		// replacing article input value
 		$(article_field).val($(this).text());
 		$(articles_wrapper).children().remove(); //resetting list
+		
+		var url = wikipedia_fetch_url(article_field, language_field);
+		wikipedia_fetch_and_display_page( url );
 
 	}));
 });
@@ -102,7 +70,8 @@ function wikipedia_autocomplete_url( article_field, language_field ) {
 }
 
 /* Ajax call for fecthing and displaying page content */
-function wikipedia_fetch_and_display_page () {
+function wikipedia_fetch_and_display_page ( url ) {
+
 	$.ajax( {
 			type: "GET",
 			url: url,
@@ -129,6 +98,48 @@ function wikipedia_fetch_and_display_page () {
 				}
 			}
 		});
+}
+
+/*  Ajax call for fetching page titles based on term */
+function wikipedia_fetch_and_display_titles( term, articles_wrapper, api_url ){
+	// make sure field is not empty
+	
+	if (term.length > 0) {
+
+		$.ajax( {
+			type: "GET",
+			url: api_url,
+			dataType: 'jsonp',
+			success: function( data) {
+
+
+				var articles = null;
+
+				if( data.query.searchinfo.hasOwnProperty('totalhits') ) { articles = data.query.search; }
+
+				console.log(data.query);
+
+				$(articles_wrapper).children().remove(); //resetting list
+				
+				// loop through item list and append li with content
+				if (articles != null) {
+					$(articles).each(function(position, article) {
+						$(articles_wrapper).append( 
+						'<li>'+
+							'<b>' + article.title + '</b>'+
+						'</li>' 
+						);
+					});
+				}
+				
+			},
+			error: function(e) {
+				$(articles_wrapper).children().remove(); //resetting list
+			}
+		});
+	} else {
+		$(articles_wrapper).children().remove(); //resetting list
+	}
 }
 
 
