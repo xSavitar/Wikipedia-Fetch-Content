@@ -21,7 +21,6 @@ $(document).ready(function () {
 			url: url,
 			dataType: 'jsonp',
 			success: function(data) {
-				console.log(url);
 				if(data.hasOwnProperty('parse')){
 					//Hide default title placeholder and show title after search
 					$('#title').hide();
@@ -52,41 +51,51 @@ $(document).ready(function () {
 		var term = $(this).val();
 		var api_url = wikipedia_autocomplete_url(article_field, language_field);
 
-		console.log(api_url);
+		// make sure field is not empty
 
-		$.ajax( {
-			type: "GET",
-			url: api_url,
-			dataType: 'jsonp',
-			success: function(response) {
-				var articles = response.query.search;
+		if (""!== term) {
 
-                $(wrapper).children().remove(); //resetting list
-				
-				// loop through item list and append li with content
-				$(articles).each(function(position, article) {
-					$(wrapper).append( 
-					'<li>'+
-						'<span class="title"><b>' + article.title + '</b>'+
-					'</li>' 
-					);
-				});
-				
-			}
-		});
+			$.ajax( {
+				type: "GET",
+				url: api_url,
+				dataType: 'jsonp',
+				success: function( data) {
+
+
+					var articles = null;
+
+					if( data.query.searchinfo.hasOwnProperty('totalhits') ) { articles = data.query.search; }
+
+					console.log(data.query);
+
+	                $(articles_wrapper).children().remove(); //resetting list
+					
+					// loop through item list and append li with content
+					if (articles != null) {
+						$(articles).each(function(position, article) {
+							$(articles_wrapper).append( 
+							'<li>'+
+								'<b>' + article.title + '</b>'+
+							'</li>' 
+							);
+						});
+					}
+					
+				}
+			});
+		}
 
 
 	});
 
 	/* Second part of autocomplete: fill the input when a result is clicked */
-	// set the an action on click
-	$(articles_wrapper).click(function(e) {
+	$(articles_wrapper).on('click', 'li', (function(e) {
 
 		// replacing article input value
 		$(article_field).val($(this).text());
-		$(wrapper).children().remove(); //resetting list
+		$(articles_wrapper).children().remove(); //resetting list
 
-	});
+	}));
 });
 
 /* JS function to build the Fetch URL */
@@ -108,6 +117,7 @@ function wikipedia_autocomplete_url( article_field, language_field ) {
 	var data_format = "&format=json";
 	var request_url = "?action=query&list=search&srsearch=" + article_name;
 	var url = base_url + request_url + data_format;
+
 	return url;
 }
 
